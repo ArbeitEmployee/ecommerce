@@ -6,6 +6,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 
+// Update the Menu array - fix duplicate IDs and add section ID for Top Rated
 const Menu = [
   {
     id: 1,
@@ -14,21 +15,26 @@ const Menu = [
   },
   {
     id: 2,
-    name: "Top Rated",
-    link: "/#services",
+    name: "Products",
+    link: "#products", // Add section ID
   },
   {
     id: 3,
+    name: "Top Rated",
+    link: "#top-products", // Add section ID
+  },
+  {
+    id: 4,
     name: "Kids Wear",
     link: "/#",
   },
   {
-    id: 3,
+    id: 5, // Fixed: Changed from duplicate id: 3
     name: "Mens Wear",
     link: "/#",
   },
   {
-    id: 3,
+    id: 6, // Fixed: Changed from duplicate id: 3
     name: "Electronics",
     link: "/#",
   },
@@ -42,17 +48,42 @@ const DropdownLinks = [
   },
   {
     id: 2,
-    name: "Best Selling",
-    link: "/#",
+    name: "Products",
+    link: "#products", // Add section ID
   },
   {
     id: 3,
     name: "Top Rated",
+    link: "#top-products", // Add section ID
+  },
+  {
+    id: 4,
+    name: "Kids Wear",
+    link: "/#",
+  },
+  {
+    id: 5, // Fixed: Changed from duplicate id: 3
+    name: "Mens Wear",
+    link: "/#",
+  },
+  {
+    id: 6, // Fixed: Changed from duplicate id: 3
+    name: "Electronics",
     link: "/#",
   },
 ];
 
 const Navbar = ({ handleOrderPopup }) => {
+  const handleScrollToSection = (e, link) => {
+    if (link.startsWith("#")) {
+      e.preventDefault();
+      const element = document.getElementById(link.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
       {/* upper Navbar */}
@@ -61,7 +92,7 @@ const Navbar = ({ handleOrderPopup }) => {
           <div>
             <a href="#" className="font-bold text-2xl sm:text-3xl flex gap-2">
               <img src={Logo} alt="Logo" className="w-10" />
-              Arbeit
+              E-Commerce
             </a>
           </div>
 
@@ -101,7 +132,8 @@ const Navbar = ({ handleOrderPopup }) => {
             <li key={data.id}>
               <a
                 href={data.link}
-                className="inline-block px-4 hover:text-primary duration-200"
+                onClick={(e) => handleScrollToSection(e, data.link)}
+                className="inline-block px-4 hover:text-primary duration-200 cursor-pointer"
               >
                 {data.name}
               </a>
@@ -121,7 +153,8 @@ const Navbar = ({ handleOrderPopup }) => {
                   <li key={data.id}>
                     <a
                       href={data.link}
-                      className="inline-block w-full rounded-md p-2 hover:bg-primary/20 "
+                      onClick={(e) => handleScrollToSection(e, data.link)}
+                      className="inline-block w-full rounded-md p-2 hover:bg-primary/20 cursor-pointer"
                     >
                       {data.name}
                     </a>
